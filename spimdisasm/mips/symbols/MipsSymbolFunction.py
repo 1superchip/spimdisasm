@@ -651,6 +651,11 @@ class SymbolFunction(SymbolText):
             label = labelSym.getReferenceeSymbols()
             labelMacro = labelSym.getLabelMacro(isInMiddleLabel=True)
             if labelMacro is not None:
+                # print(labelSym.getName(), labelMacro)
+                # if labelMacro == "fn":
+                #     label += f"{labelMacro} {labelSym.getName()}, {labelSym.getBindName()}{common.GlobalConfig.LINE_ENDS}"
+                #     print(label, f"{labelMacro} {labelSym.getName()}, {labelSym.getBindName()}")
+                # else:
                 label += f"{labelMacro} {labelSym.getName()}{common.GlobalConfig.LINE_ENDS}"
             if common.GlobalConfig.ASM_TEXT_FUNC_AS_LABEL:
                 label += f"{labelSym.getName()}:{common.GlobalConfig.LINE_ENDS}"
@@ -714,6 +719,7 @@ class SymbolFunction(SymbolText):
         symName = self.getName()
         symSize = self.contextSym.getSize()
         output += self.getSymbolAsmDeclaration(symName, useGlobalLabel)
+        # print(symName, output)
 
         wasLastInstABranch = False
         instructionOffset = 0
@@ -740,8 +746,12 @@ class SymbolFunction(SymbolText):
             instructionOffset += 4
 
             if instructionOffset == symSize:
+<<<<<<< Updated upstream
                 if common.GlobalConfig.ASM_TEXT_END_LABEL:
                     output += f"{common.GlobalConfig.ASM_TEXT_END_LABEL} {self.getName()}" + common.GlobalConfig.LINE_ENDS
+=======
+                output += self.getSizeDirective(symName)
+>>>>>>> Stashed changes
 
                 output += self.getSizeDirective(symName)
 

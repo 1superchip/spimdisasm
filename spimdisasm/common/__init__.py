@@ -14,6 +14,7 @@ from .FileSectionType import FileSectionType as FileSectionType
 from .FileSectionType import FileSections_ListBasic as FileSections_ListBasic
 from .FileSectionType import FileSections_ListAll as FileSections_ListAll
 from .ContextSymbols import SymbolSpecialType as SymbolSpecialType
+from .ContextSymbols import SymbolBindingType as SymbolBindingType
 from .ContextSymbols import ContextSymbol as ContextSymbol
 from .ContextSymbols import gKnownTypes as gKnownTypes
 from .SymbolsSegment import SymbolsSegment as SymbolsSegment

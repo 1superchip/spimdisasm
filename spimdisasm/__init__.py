@@ -5,8 +5,13 @@
 
 from __future__ import annotations
 
+<<<<<<< Updated upstream
 __version_info__: tuple[int, int, int] = (1, 17, 1)
 __version__ = ".".join(map(str, __version_info__)) + ".dev0"
+=======
+__version_info__: tuple[int, int, int] = (1, 16, 4)
+__version__ = ".".join(map(str, __version_info__))
+>>>>>>> Stashed changes
 __author__ = "Decompollaborate"
 
 from . import common as common

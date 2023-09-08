@@ -128,6 +128,14 @@ class SymbolBase(common.ElementBase):
 
     def getSizeDirective(self, symName: str) -> str:
         if common.GlobalConfig.ASM_EMIT_SIZE_DIRECTIVE:
+            print(self.contextSym.elfSymbolType, symName)
+            if self.contextSym.elfSymbolType is not None and (common.GlobalConfig.ASM_TEXT_LABEL == "fn" or common.GlobalConfig.ASM_DATA_LABEL == "obj"):
+                symType: str|None = self.contextSym.getElfSymbolTypeName()
+                print(symType)
+                if common.GlobalConfig.ASM_TEXT_LABEL == "fn" and symType == "func":
+                    return f"endfn {symName}{common.GlobalConfig.LINE_ENDS}"
+                if common.GlobalConfig.ASM_DATA_LABEL == "obj" and symType == "object":
+                    return f"endobj {symName}{common.GlobalConfig.LINE_ENDS}"
             return f".size {symName}, . - {symName}{common.GlobalConfig.LINE_ENDS}"
         return ""
 
@@ -335,7 +343,9 @@ class SymbolBase(common.ElementBase):
 
 
     def _allowWordSymbolReference(self, symbolRef: common.ContextSymbol, word: int) -> bool:
-        if symbolRef.isElfNotype:
+        # if symbolRef.isElfNotype:
+        #     return False
+        if symbolRef.elfSymbolType == common.ContextSymbols.ElfSymbolType.NOTYPE:
             return False
 
         symType = symbolRef.getTypeSpecial()

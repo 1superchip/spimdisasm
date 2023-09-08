@@ -97,7 +97,11 @@ class ElementBase:
             label = sym.getLabelMacro(isInMiddleLabel=False)
             if label is None:
                 return ""
-            label += f" {symName or sym.getName()}"
+            
+            if label == "fn" or label == "obj":
+                label += f" {symName or sym.getName()}, {sym.getBindName()}"
+            else:
+                label += f" {symName or sym.getName()}"
             if GlobalConfig.GLABEL_ASM_COUNT:
                 if self.index is not None:
                     label += f" # {self.index}"

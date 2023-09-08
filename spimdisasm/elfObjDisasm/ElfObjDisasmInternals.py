@@ -81,6 +81,9 @@ def applyGlobalConfigurations() -> None:
 
     common.GlobalConfig.INPUT_FILE_TYPE = common.InputFileType.ELF
 
+    common.GlobalConfig.ASM_TEXT_LABEL = "fn"
+    common.GlobalConfig.ASM_DATA_LABEL = "obj"
+
 
 def applyReadelfLikeFlags(elfFile: elf32.Elf32File, args: argparse.Namespace) -> None:
     if args.all:
@@ -245,7 +248,8 @@ def addContextSymFromSymEntry(context: common.Context, symEntry: elf32.Elf32SymE
         if symEntry.shndx == elf32.Elf32SectionHeaderNumber.ABS.value:
             segment = context.globalSegment
             contextSym = segment.addSymbol(symAddress, vromAddress=symVrom)
-            contextSym.isElfNotype = True
+            contextSym.elfSymbolType = common.ContextSymbols.ElfSymbolType.NOTYPE
+            # contextSym.isElfNotype = True
         else:
             bind = elf32.Elf32SymbolTableBinding.fromValue(symEntry.stBind)
             if bind != elf32.Elf32SymbolTableBinding.LOCAL:
@@ -261,6 +265,8 @@ def addContextSymFromSymEntry(context: common.Context, symEntry: elf32.Elf32SymE
         else:
             contextSym.name = symName
     contextSym.isUserDeclared = True
+    contextSym.userDeclaredBind = symEntry.stBind
+    contextSym.elfSymbolType = common.ContextSymbols.ElfSymbolType(symEntry.stType)
     contextSym.setSizeIfUnset(symEntry.size)
 
     return contextSym
